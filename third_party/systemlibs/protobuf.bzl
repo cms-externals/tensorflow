@@ -378,6 +378,7 @@ def py_proto_library(
         deps = [s + "_genproto" for s in deps],
         includes = includes,
         protoc = protoc,
+        use_default_shell_env = True, 
         gen_py = 1,
         outs = outs,
         visibility = ["//visibility:public"],
