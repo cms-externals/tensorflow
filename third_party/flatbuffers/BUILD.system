@@ -8,14 +8,16 @@ filegroup(
 # Public flatc library to compile flatbuffer files at runtime.
 cc_library(
     name = "flatbuffers",
-    linkopts = ["-lflatbuffers"],
+    linkopts = ["-Lexternal/flatbuffers/lib64 -lflatbuffers"],
+    includes = ["include"],
     visibility = ["//visibility:public"],
 )
 
 # Public flatc compiler library.
 cc_library(
     name = "flatc_library",
-    linkopts = ["-lflatbuffers"],
+    linkopts = ["-Lexternal/flatbuffers/lib64  -lflatbuffers"],
+    includes = ["include"],
     visibility = ["//visibility:public"],
 )
 
@@ -34,6 +36,7 @@ sh_binary(
 
 cc_library(
     name = "runtime_cc",
+    includes = ["include"],
     visibility = ["//visibility:public"],
 )
 
