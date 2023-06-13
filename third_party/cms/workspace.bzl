@@ -142,18 +142,6 @@ def sqlite():
         build_file = "//third_party/systemlibs:sqlite.BUILD",
     )
 
-def absl_py():
-    cms_new_local_repository(
-        name = "absl_py",
-        build_file = "//third_party/systemlibs:absl_py.BUILD",
-        symlinks = {
-            "//third_party/systemlibs:absl_py.absl.BUILD": "absl/BUILD",
-            "//third_party/systemlibs:absl_py.absl.flags.BUILD": "absl/flags/BUILD",
-            "//third_party/systemlibs:absl_py.absl.logging.BUILD": "absl/logging/BUILD",
-            "//third_party/systemlibs:absl_py.absl.testing.BUILD": "absl/testing/BUILD",
-        },
-    )
-
 def pasta():
     cms_new_local_repository(
         name = "pasta",
@@ -204,7 +192,6 @@ def repos():
     termcolor()
     typing_extensions()
     sqlite()
-    absl_py()
     pasta()
     wrapt()
     gast()

@@ -317,6 +317,20 @@ def _tf_repositories():
     )
 
     tf_http_archive(
+        name = "absl_py",
+        sha256 = "0fb3a4916a157eb48124ef309231cecdfdd96ff54adf1660b39c0d4a9790a2c0",
+        strip_prefix = "abseil-py-1.4.0",
+        system_build_file = "//third_party/systemlibs:absl_py.BUILD",
+        system_link_files = {
+            "//third_party/systemlibs:absl_py.absl.BUILD": "absl/BUILD",
+            "//third_party/systemlibs:absl_py.absl.flags.BUILD": "absl/flags/BUILD",
+            "//third_party/systemlibs:absl_py.absl.testing.BUILD": "absl/testing/BUILD",
+            "//third_party/systemlibs:absl_py.absl.logging.BUILD": "absl/logging/BUILD",
+        },
+        urls = tf_mirror_urls("https://github.com/abseil/abseil-py/archive/refs/tags/v1.4.0.tar.gz"),
+    )
+
+    tf_http_archive(
         name = "dill_archive",
         build_file = "//third_party:dill.BUILD",
         system_build_file = "//third_party/systemlibs:dill.BUILD",
