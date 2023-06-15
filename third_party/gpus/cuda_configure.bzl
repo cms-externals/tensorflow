@@ -562,7 +562,7 @@ def _find_libs(repository_ctx, check_cuda_libs_script, cuda_config):
             "cusolver",
             cpu_value,
             cuda_config.config["cusolver_library_dir"],
-            cuda_config.cusolver_version,
+            version = None,
             static = False,
         ),
         "curand": _check_cuda_lib_params(
