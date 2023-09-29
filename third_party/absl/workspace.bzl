@@ -7,8 +7,8 @@ def repo():
 
     # Attention: tools parse and update these lines.
     # LINT.IfChange
-    ABSL_COMMIT = "b971ac5250ea8de900eae9f95e06548d14cd95fe"
-    ABSL_SHA256 = "8eeec9382fc0338ef5c60053f3a4b0e0708361375fe51c9e65d0ce46ccfe55a7"
+    ABSL_COMMIT = "c2435f8342c2d0ed8101cb43adfd605fdc52dca2"
+    ABSL_SHA256 = "9892836ab0d3f099b8c15076c6f4168144f452d097bd49da215fe0df36a2d48c"
     # LINT.ThenChange(//tensorflow/lite/tools/cmake/modules/abseil-cpp.cmake)
 
     SYS_DIRS = [
