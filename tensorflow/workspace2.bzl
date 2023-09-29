@@ -24,14 +24,16 @@ load("//third_party/absl:workspace.bzl", absl = "repo")
 load("//third_party/benchmark:workspace.bzl", benchmark = "repo")
 load("//third_party/dlpack:workspace.bzl", dlpack = "repo")
 load("//third_party/ducc:workspace.bzl", ducc = "repo")
-load("//third_party/eigen3:workspace.bzl", eigen3 = "repo")
+#load("//third_party/eigen3:workspace.bzl", eigen3 = "repo")
 load("//third_party/farmhash:workspace.bzl", farmhash = "repo")
+#load("//third_party/flatbuffers:workspace.bzl", flatbuffers = "repo")
 load("//third_party/gemmlowp:workspace.bzl", gemmlowp = "repo")
 load("//third_party/hexagon:workspace.bzl", hexagon_nn = "repo")
 load("//third_party/highwayhash:workspace.bzl", highwayhash = "repo")
-load("//third_party/hwloc:workspace.bzl", hwloc = "repo")
+#load("//third_party/hwloc:workspace.bzl", hwloc = "repo")
 load("//third_party/implib_so:workspace.bzl", implib_so = "repo")
 load("//third_party/icu:workspace.bzl", icu = "repo")
+#load("//third_party/jpeg:workspace.bzl", jpeg = "repo")
 load("//third_party/libprotobuf_mutator:workspace.bzl", libprotobuf_mutator = "repo")
 load("//third_party/nasm:workspace.bzl", nasm = "repo")
 load("//third_party/py/ml_dtypes:workspace.bzl", ml_dtypes = "repo")
@@ -39,7 +41,7 @@ load("//third_party/pybind11_abseil:workspace.bzl", pybind11_abseil = "repo")
 load("//third_party/pybind11_bazel:workspace.bzl", pybind11_bazel = "repo")
 load("//third_party/opencl_headers:workspace.bzl", opencl_headers = "repo")
 load("//third_party/kissfft:workspace.bzl", kissfft = "repo")
-load("//third_party/pasta:workspace.bzl", pasta = "repo")
+#load("//third_party/pasta:workspace.bzl", pasta = "repo")
 load("//third_party/ruy:workspace.bzl", ruy = "repo")
 load("//third_party/sobol_data:workspace.bzl", sobol_data = "repo")
 load("//third_party/stablehlo:workspace.bzl", stablehlo = "repo")
@@ -66,13 +68,16 @@ def _initialize_third_party():
     benchmark()
     ducc()
     dlpack()
+#    eigen3()
     farmhash()
+#    flatbuffers()
     gemmlowp()
     hexagon_nn()
     highwayhash()
+#    hwloc()
     icu()
     implib_so()
-    jpeg()
+#    jpeg()
     kissfft()
     libprotobuf_mutator()
     ml_dtypes()
@@ -308,56 +313,70 @@ def _tf_repositories():
         urls = tf_mirror_urls("https://github.com/googleapis/googleapis/archive/6b3fdcea8bc5398be4e7e9930c693f0ea09316a0.tar.gz"),
     )
 
-    tf_http_archive(
-        name = "astunparse_archive",
-        build_file = "//third_party:astunparse.BUILD",
-        sha256 = "5ad93a8456f0d084c3456d059fd9a92cce667963232cbf763eac3bc5b7940872",
-        strip_prefix = "astunparse-1.6.3/lib",
-        system_build_file = "//third_party/systemlibs:astunparse.BUILD",
-        urls = tf_mirror_urls("https://files.pythonhosted.org/packages/f3/af/4182184d3c338792894f34a62672919db7ca008c89abee9b564dd34d8029/astunparse-1.6.3.tar.gz"),
-    )
+#    tf_http_archive(
+#        name = "png",
+#        build_file = "//third_party:png.BUILD",
+#        patch_file = ["//third_party:png_fix_rpi.patch"],
+#        sha256 = "a00e9d2f2f664186e4202db9299397f851aea71b36a35e74910b8820e380d441",
+#        strip_prefix = "libpng-1.6.39",
+#        system_build_file = "//third_party/systemlibs:png.BUILD",
+#        urls = tf_mirror_urls("https://github.com/glennrp/libpng/archive/v1.6.39.tar.gz"),
+#    )
 
-    filegroup_external(
-        name = "astunparse_license",
-        licenses = ["notice"],  # PSFL
-        sha256_urls = {
-            "92fc0e4f4fa9460558eedf3412b988d433a2dcbb3a9c45402a145a4fab8a6ac6": tf_mirror_urls("https://raw.githubusercontent.com/simonpercivall/astunparse/v1.6.2/LICENSE"),
-        },
-    )
+#    tf_http_archive(
+#        name = "org_sqlite",
+#        build_file = "//third_party:sqlite.BUILD",
+#        sha256 = "bb5849ae4d7129c09d20596379a0b3f7b1ac59cf9998eba5ef283ea9b6c000a5",
+#        strip_prefix = "sqlite-amalgamation-3430000",
+#        system_build_file = "//third_party/systemlibs:sqlite.BUILD",
+#        urls = tf_mirror_urls("https://www.sqlite.org/2023/sqlite-amalgamation-3430000.zip"),
+#    )
 
-    filegroup_external(
-        name = "typing_extensions_license",
-        licenses = ["notice"],  # PSFL
-        sha256_urls = {
-            "ff17ce94e102024deb68773eb1cc74ca76da4e658f373531f0ac22d68a6bb1ad": tf_mirror_urls("https://raw.githubusercontent.com/python/typing/master/typing_extensions/LICENSE"),
-        },
-    )
+#    tf_http_archive(
+#        name = "gif",
+#        build_file = "//third_party:gif.BUILD",
+#        patch_file = ["//third_party:gif_fix_strtok_r.patch"],
+#        sha256 = "31da5562f44c5f15d63340a09a4fd62b48c45620cd302f77a6d9acf0077879bd",
+#        strip_prefix = "giflib-5.2.1",
+#        system_build_file = "//third_party/systemlibs:gif.BUILD",
+#        urls = tf_mirror_urls("https://pilotfiber.dl.sourceforge.net/project/giflib/giflib-5.2.1.tar.gz"),
+#    )
 
-    tf_http_archive(
-        name = "dill_archive",
-        build_file = "//third_party:dill.BUILD",
-        system_build_file = "//third_party/systemlibs:dill.BUILD",
-        urls = tf_mirror_urls("https://github.com/uqfoundation/dill/releases/download/dill-0.3.6/dill-0.3.6.zip"),
-        sha256 = "2159ca9e7568ff47dc7be2e35a6edf18014351da95ad1b59c0930a14dcf37be7",
-        strip_prefix = "dill-0.3.6",
-    )
+#    tf_http_archive(
+#        name = "six_archive",
+#        build_file = "//third_party:six.BUILD",
+#        sha256 = "1e61c37477a1626458e36f7b1d82aa5c9b094fa4802892072e49de9c60c4c926",
+#        strip_prefix = "six-1.16.0",
+#        system_build_file = "//third_party/systemlibs:six.BUILD",
+#        urls = tf_mirror_urls("https://pypi.python.org/packages/source/s/six/six-1.16.0.tar.gz"),
+#    )
 
-    tf_http_archive(
-        name = "tblib_archive",
-        build_file = "//third_party:tblib.BUILD",
-        system_build_file = "//third_party/systemlibs:tblib.BUILD",
-        urls = tf_mirror_urls("https://files.pythonhosted.org/packages/d3/41/901ef2e81d7b1e834b9870d416cb09479e175a2be1c4aa1a9dcd0a555293/tblib-1.7.0.tar.gz"),
-        sha256 = "059bd77306ea7b419d4f76016aef6d7027cc8a0785579b5aad198803435f882c",
-        strip_prefix = "tblib-1.7.0",
-    )
+#    tf_http_archive(
+#        name = "absl_py",
+#        sha256 = "a7c51b2a0aa6357a9cbb2d9437e8cd787200531867dc02565218930b6a32166e",
+#        strip_prefix = "abseil-py-1.0.0",
+#        system_build_file = "//third_party/systemlibs:absl_py.BUILD",
+#        system_link_files = {
+#            "//third_party/systemlibs:absl_py.absl.BUILD": "absl/BUILD",
+#            "//third_party/systemlibs:absl_py.absl.flags.BUILD": "absl/flags/BUILD",
+#            "//third_party/systemlibs:absl_py.absl.testing.BUILD": "absl/testing/BUILD",
+#            "//third_party/systemlibs:absl_py.absl.logging.BUILD": "absl/logging/BUILD",
+#        },
+#        urls = tf_mirror_urls("https://github.com/abseil/abseil-py/archive/refs/tags/v1.0.0.tar.gz"),
+#    )
 
-    filegroup_external(
-        name = "org_python_license",
-        licenses = ["notice"],  # Python 2.0
-        sha256_urls = {
-            "e76cacdf0bdd265ff074ccca03671c33126f597f39d0ed97bc3e5673d9170cf6": tf_mirror_urls("https://docs.python.org/2.7/_sources/license.rst.txt"),
-        },
-    )
+#    tf_http_archive(
+#        name = "com_google_protobuf",
+#        patch_file = ["//third_party/protobuf:protobuf.patch"],
+#        sha256 = "f66073dee0bc159157b0bd7f502d7d1ee0bc76b3c1eac9836927511bdc4b3fc1",
+#        strip_prefix = "protobuf-3.21.9",
+#        system_build_file = "//third_party/systemlibs:protobuf.BUILD",
+#        system_link_files = {
+#            "//third_party/systemlibs:protobuf.bzl": "protobuf.bzl",
+#            "//third_party/systemlibs:protobuf_deps.bzl": "protobuf_deps.bzl",
+#        },
+#        urls = tf_mirror_urls("https://github.com/protocolbuffers/protobuf/archive/v3.21.9.zip"),
+#    )
 
     tf_http_archive(
         name = "nsync",
@@ -389,36 +408,36 @@ def _tf_repositories():
         urls = tf_mirror_urls("https://github.com/gflags/gflags/archive/v2.2.2.tar.gz"),
     )
 
-    tf_http_archive(
-        name = "curl",
-        build_file = "//third_party:curl.BUILD",
-        sha256 = "f98bdb06c0f52bdd19e63c4a77b5eb19b243bcbbd0f5b002b9f3cba7295a3a42",
-        strip_prefix = "curl-8.2.1",
-        system_build_file = "//third_party/systemlibs:curl.BUILD",
-        urls = tf_mirror_urls("https://curl.haxx.se/download/curl-8.2.1.tar.gz"),
-    )
+#    tf_http_archive(
+#        name = "curl",
+#        build_file = "//third_party:curl.BUILD",
+#        sha256 = "f98bdb06c0f52bdd19e63c4a77b5eb19b243bcbbd0f5b002b9f3cba7295a3a42",
+#        strip_prefix = "curl-8.2.1",
+#        system_build_file = "//third_party/systemlibs:curl.BUILD",
+#        urls = tf_mirror_urls("https://curl.haxx.se/download/curl-8.2.1.tar.gz"),
+#    )
 
     # WARNING: make sure ncteisen@ and vpai@ are cc-ed on any CL to change the below rule
-    tf_http_archive(
-        name = "com_github_grpc_grpc",
-        sha256 = "b956598d8cbe168b5ee717b5dafa56563eb5201a947856a6688bbeac9cac4e1f",
-        strip_prefix = "grpc-b54a5b338637f92bfcf4b0bc05e0f57a5fd8fadd",
-        system_build_file = "//third_party/systemlibs:grpc.BUILD",
-        patch_file = [
-            "//third_party/grpc:generate_cc_env_fix.patch",
-            "//third_party/grpc:register_go_toolchain.patch",
-        ],
-        system_link_files = {
-            "//third_party/systemlibs:BUILD": "bazel/BUILD",
-            "//third_party/systemlibs:grpc.BUILD": "src/compiler/BUILD",
-            "//third_party/systemlibs:grpc.bazel.grpc_deps.bzl": "bazel/grpc_deps.bzl",
-            "//third_party/systemlibs:grpc.bazel.grpc_extra_deps.bzl": "bazel/grpc_extra_deps.bzl",
-            "//third_party/systemlibs:grpc.bazel.cc_grpc_library.bzl": "bazel/cc_grpc_library.bzl",
-            "//third_party/systemlibs:grpc.bazel.generate_cc.bzl": "bazel/generate_cc.bzl",
-            "//third_party/systemlibs:grpc.bazel.protobuf.bzl": "bazel/protobuf.bzl",
-        },
-        urls = tf_mirror_urls("https://github.com/grpc/grpc/archive/b54a5b338637f92bfcf4b0bc05e0f57a5fd8fadd.tar.gz"),
-    )
+ #   tf_http_archive(
+ #       name = "com_github_grpc_grpc",
+ #       sha256 = "b956598d8cbe168b5ee717b5dafa56563eb5201a947856a6688bbeac9cac4e1f",
+ #       strip_prefix = "grpc-b54a5b338637f92bfcf4b0bc05e0f57a5fd8fadd",
+ #       system_build_file = "//third_party/systemlibs:grpc.BUILD",
+ #       patch_file = [
+ #           "//third_party/grpc:generate_cc_env_fix.patch",
+ #           "//third_party/grpc:register_go_toolchain.patch",
+ #       ],
+ #       system_link_files = {
+ #           "//third_party/systemlibs:BUILD": "bazel/BUILD",
+ #           "//third_party/systemlibs:grpc.BUILD": "src/compiler/BUILD",
+ #           "//third_party/systemlibs:grpc.bazel.grpc_deps.bzl": "bazel/grpc_deps.bzl",
+ #           "//third_party/systemlibs:grpc.bazel.grpc_extra_deps.bzl": "bazel/grpc_extra_deps.bzl",
+ #           "//third_party/systemlibs:grpc.bazel.cc_grpc_library.bzl": "bazel/cc_grpc_library.bzl",
+ #           "//third_party/systemlibs:grpc.bazel.generate_cc.bzl": "bazel/generate_cc.bzl",
+ #           "//third_party/systemlibs:grpc.bazel.protobuf.bzl": "bazel/protobuf.bzl",
+ #       },
+ #       urls = tf_mirror_urls("https://github.com/grpc/grpc/archive/b54a5b338637f92bfcf4b0bc05e0f57a5fd8fadd.tar.gz"),
+ #   )
 
     tf_http_archive(
         name = "linenoise",
@@ -455,6 +474,16 @@ def _tf_repositories():
         system_build_file = "//third_party/systemlibs:boringssl.BUILD",
         urls = tf_mirror_urls("https://github.com/google/boringssl/archive/c00d7ca810e93780bd0c8ee4eea28f4f2ea4bcdc.tar.gz"),
     )
+
+    # Note: if you update this, you have to update libpng too. See cl/437813808
+#    tf_http_archive(
+#        name = "zlib",
+#        build_file = "//third_party:zlib.BUILD",
+#        sha256 = "b3a24de97a8fdbc835b9833169501030b8977031bcb54b3b3ac13740f846ab30",
+#        strip_prefix = "zlib-1.2.13",
+#        system_build_file = "//third_party/systemlibs:zlib.BUILD",
+#        urls = tf_mirror_urls("https://zlib.net/fossils/zlib-1.2.13.tar.gz"),
+#    )
 
     # LINT.IfChange
     tf_http_archive(
@@ -570,6 +599,23 @@ def _tf_repositories():
         strip_prefix = "cub-1.9.9",
         urls = tf_mirror_urls("https://github.com/NVlabs/cub/archive/1.9.9.zip"),
     )
+
+#    tf_http_archive(
+#        name = "nvtx_archive",
+#        build_file = "//third_party:nvtx.BUILD",
+#        sha256 = "bb8d1536aad708ec807bc675e12e5838c2f84481dec4005cd7a9bbd49e326ba1",
+#        strip_prefix = "NVTX-3.0.1/c/include",
+#        urls = tf_mirror_urls("https://github.com/NVIDIA/NVTX/archive/v3.0.1.tar.gz"),
+#    )
+
+#    tf_http_archive(
+#        name = "cython",
+#        build_file = "//third_party:cython.BUILD",
+#        sha256 = "08dbdb6aa003f03e65879de8f899f87c8c718cd874a31ae9c29f8726da2f5ab0",
+#        strip_prefix = "cython-3.0.0a11",
+#        system_build_file = "//third_party/systemlibs:cython.BUILD",
+#        urls = tf_mirror_urls("https://github.com/cython/cython/archive/3.0.0a11.tar.gz"),
+#    )
 
     # LINT.IfChange
     tf_http_archive(
@@ -720,15 +766,14 @@ def _tf_repositories():
         urls = tf_mirror_urls("https://github.com/nlohmann/json/archive/v3.10.5.tar.gz"),
     )
 
-    tf_http_archive(
-<<<<<<< HEAD
-        name = "pybind11",
-        urls = tf_mirror_urls("https://github.com/pybind/pybind11/archive/v2.10.4.tar.gz"),
-        sha256 = "832e2f309c57da9c1e6d4542dedd34b24e4192ecb4d62f6f4866a737454c9970",
-        strip_prefix = "pybind11-2.10.4",
-        build_file = "//third_party:pybind11.BUILD",
-        system_build_file = "//third_party/systemlibs:pybind11.BUILD",
-    )
+#    tf_http_archive(
+#        name = "pybind11",
+#        urls = tf_mirror_urls("https://github.com/pybind/pybind11/archive/v2.10.4.tar.gz"),
+#        sha256 = "832e2f309c57da9c1e6d4542dedd34b24e4192ecb4d62f6f4866a737454c9970",
+#        strip_prefix = "pybind11-2.10.4",
+#        build_file = "//third_party:pybind11.BUILD",
+#        system_build_file = "//third_party/systemlibs:pybind11.BUILD",
+#    )
 
     tf_http_archive(
         name = "pybind11_protobuf",
@@ -736,14 +781,6 @@ def _tf_repositories():
         sha256 = "c7ab64b1ccf9a678694a89035a8c865a693e4e872803778f91f0965c2f281d78",
         strip_prefix = "pybind11_protobuf-80f3440cd8fee124e077e2e47a8a17b78b451363",
         patch_file = ["//third_party/pybind11_protobuf:remove_license.patch"],
-=======
-        name = "wrapt",
-        build_file = "//third_party:wrapt.BUILD",
-        sha256 = "866211ed43c2639a2452cd017bd38589e83687b1d843817c96b99d2d9d32e8d7",
-        strip_prefix = "wrapt-1.14.1/src/wrapt",
-        system_build_file = "//third_party/systemlibs:wrapt.BUILD",
-        urls = tf_mirror_urls("https://github.com/GrahamDumpleton/wrapt/archive/1.14.1.tar.gz"),
->>>>>>> a611564d6a8 ([CMSSW] Changes needed to use build with cms externals)
     )
 
     tf_http_archive(
