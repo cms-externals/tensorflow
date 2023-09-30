@@ -83,7 +83,7 @@ def _initialize_third_party():
     ml_dtypes()
     nasm()
     opencl_headers()
-    pasta()
+#    pasta()
     pybind11_abseil()
     pybind11_bazel()
     ruy()
