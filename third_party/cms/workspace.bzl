@@ -181,7 +181,7 @@ def backports_weakref():
 
 def opt_einsum():
     cms_new_local_repository(
-        name = "opt_einsum_archive",
+        name = "pypi_opt_einsum",
         build_file = "//third_party/systemlibs:opt_einsum.BUILD",
     )
 
