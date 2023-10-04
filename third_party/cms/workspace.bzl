@@ -179,11 +179,11 @@ def backports_weakref():
         create_files = ["LICENSE"],
     )
 
-def opt_einsum():
-    cms_new_local_repository(
-        name = "pypi_opt_einsum",
-        build_file = "//third_party/systemlibs:opt_einsum.BUILD",
-    )
+# def opt_einsum():
+#     cms_new_local_repository(
+#         name = "pypi_opt_einsum",
+#         build_file = "//third_party/systemlibs:opt_einsum.BUILD",
+#     )
 
 def repos():
     png()
@@ -209,4 +209,4 @@ def repos():
     wrapt()
     gast()
     backports_weakref()
-    opt_einsum()
+#    opt_einsum()
