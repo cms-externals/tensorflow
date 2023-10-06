@@ -1,5 +1,5 @@
---- build_defs.bzl.1	2023-10-06 11:21:14.220307188 +0200
-+++ build_defs.bzl	2023-10-06 11:24:35.624577060 +0200
+--- a/build_defs.bzl	2023-10-06 11:21:14.220307188 +0200
++++ b/build_defs.bzl	2023-10-06 11:24:35.624577060 +0200
 @@ -24,7 +24,9 @@
  
  # Builds a Python extension module using pybind11.
