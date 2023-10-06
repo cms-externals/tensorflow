@@ -1,8 +1,6 @@
-diff --git a/build_defs.bzl b/build_defs.bzl
-index cde1e93..03f14a5 100644
---- a/build_defs.bzl
-+++ b/build_defs.bzl
-@@ -27,7 +27,9 @@ PYBIND_DEPS = [
+--- build_defs.bzl.1	2023-10-06 11:21:14.220307188 +0200
++++ build_defs.bzl	2023-10-06 11:24:35.624577060 +0200
+@@ -24,7 +24,9 @@
  
  # Builds a Python extension module using pybind11.
  # This can be directly used in python with the import statement.
@@ -13,7 +11,18 @@ index cde1e93..03f14a5 100644
  def pybind_extension(
          name,
          copts = [],
-@@ -59,6 +61,21 @@ def pybind_extension(
+@@ -40,16 +42,29 @@
+         name = name + ".so",
+         copts = copts + PYBIND_COPTS + ["-fvisibility=hidden"],
+         features = features + PYBIND_FEATURES,
+-        linkopts = linkopts + select({
+-            "@pybind11//:osx": [],
+-            "//conditions:default": ["-Wl,-Bsymbolic"],
+-        }),
++        linkopts = linkopts + ["-Wl,-Bsymbolic"],
+         linkshared = 1,
+         tags = tags,
+         deps = deps + PYBIND_DEPS,
          **kwargs
      )
  
@@ -31,6 +40,7 @@ index cde1e93..03f14a5 100644
 +            "//conditions:default": [":" + name + ".so"],
 +        }),
 +    )
++
 +
  # Builds a pybind11 compatible library. This can be linked to a pybind_extension.
  def pybind_library(
