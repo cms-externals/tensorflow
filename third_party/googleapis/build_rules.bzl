@@ -75,7 +75,7 @@ def cc_grpc_library(name, srcs, deps, service_namespace = "grpc", **kwargs):
         flags = [
             "services_namespace=" + service_namespace,
         ],
-        plugin = "@com_github_grpc_grpc//src/compiler:grpc_cpp_plugin",
+        plugin = "@com_github_grpc_grpc//:grpc_cpp_plugin",
         well_known_protos = True,
         generate_mocks = True,
     )

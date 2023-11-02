@@ -7,6 +7,7 @@ filegroup(
 
 cc_library(
     name = "gif",
-    linkopts = ["-lgif"],
+    linkopts = ["-Lexternal/gif/lib -lgif"],
+    includes = ["include"],
     visibility = ["//visibility:public"],
 )

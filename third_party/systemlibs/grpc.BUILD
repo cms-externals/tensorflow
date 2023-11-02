@@ -7,7 +7,9 @@ filegroup(
 
 cc_library(
     name = "grpc",
+    includes = ["include"],
     linkopts = [
+        "-Lexternal/com_github_grpc_grpc/lib",
         "-lgrpc",
         "-lgpr",
     ],
@@ -16,7 +18,9 @@ cc_library(
 
 cc_library(
     name = "grpc++",
+    includes = ["include"],
     linkopts = [
+        "-Lexternal/com_github_grpc_grpc/lib",
         "-lgrpc++",
         "-lgpr",
     ],
@@ -25,17 +29,21 @@ cc_library(
 
 cc_library(
     name = "grpc++_public_hdrs",
+    includes = ["include"],
     visibility = ["//visibility:public"],
 )
 
 cc_library(
     name = "grpc++_codegen_proto",
+    includes = ["include"],
     visibility = ["//visibility:public"],
 )
 
 cc_library(
     name = "grpc_unsecure",
+    includes = ["include"],
     linkopts = [
+        "-Lexternal/com_github_grpc_grpc/lib",
         "-lgrpc_unsecure",
         "-lgpr",
     ],
@@ -44,7 +52,9 @@ cc_library(
 
 cc_library(
     name = "grpc++_unsecure",
+    includes = ["include"],
     linkopts = [
+        "-Lexternal/com_github_grpc_grpc/lib",
         "-lgrpc++_unsecure",
         "-lgpr",
     ],
