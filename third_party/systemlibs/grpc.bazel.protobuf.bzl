@@ -4,6 +4,7 @@ _PROTO_EXTENSION = ".proto"
 _VIRTUAL_IMPORTS = "/_virtual_imports/"
 
 def well_known_proto_libs():
+    return []
     return [
         "@com_google_protobuf//:any_proto",
         "@com_google_protobuf//:api_proto",

@@ -93,6 +93,7 @@ struct ParallelMatMulKernel {
     z.device(d) = z.conjugate();
   }
 
+  __attribute__((used))
   static void Run(const OpKernelContext* context, const Tensor& in_x,
                   const Tensor& in_y, bool adj_x, bool adj_y, bool trans_x,
                   bool trans_y, const MatMulBCast& bcast, Tensor* out,
@@ -138,6 +139,7 @@ template <typename Scalar>
 struct ParallelMatMulKernel<Scalar, false> {
   static void Conjugate(const OpKernelContext* context, Tensor* out) {}
 
+  __attribute__((used))
   static void Run(const OpKernelContext* context, const Tensor& in_x,
                   const Tensor& in_y, bool adj_x, bool adj_y, bool trans_x,
                   bool trans_y, const MatMulBCast& bcast, Tensor* out,
@@ -209,6 +211,7 @@ struct SequentialMatMulKernel {
         t->dim_size(1), t->dim_size(2));
   }
 
+  __attribute__((used))
   static void Run(const Tensor& in_x, const Tensor& in_y, bool adj_x,
                   bool adj_y, bool trans_x, bool trans_y,
                   const MatMulBCast& bcast, Tensor* out, int start, int limit) {
@@ -270,6 +273,8 @@ struct SingleBatchParallelMatMulKernel {
     return MatrixMap(t->flat<Scalar>().data(), t->dim_size(1), t->dim_size(2));
   }
 
+
+  __attribute__((used))
   static void Run(const CPUDevice& device, const Tensor& in_x,
                   const Tensor& in_y, bool adj_x, bool adj_y, bool trans_x,
                   bool trans_y, Tensor* out) {
