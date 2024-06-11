@@ -7,6 +7,7 @@ filegroup(
 
 cc_library(
     name = "png",
-    linkopts = ["-lpng"],
+    linkopts = ["-Lexternal/png/lib -lpng"],
+    includes = ["include"],
     visibility = ["//visibility:public"],
 )

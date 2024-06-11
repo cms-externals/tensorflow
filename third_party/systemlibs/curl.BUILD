@@ -7,6 +7,7 @@ filegroup(
 
 cc_library(
     name = "curl",
-    linkopts = ["-lcurl"],
+    linkopts = ["-Lexternal/curl/lib -lcurl"],
+    includes = ["include"],
     visibility = ["//visibility:public"],
 )

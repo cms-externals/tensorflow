@@ -52,8 +52,6 @@ function cp_local_config_python() {
   local dest_dir=$2
   pushd .
   cd "$src_dir"
-  mkdir -p "${dest_dir}/local_config_python/numpy_include/"
-  cp -r "pypi_numpy/site-packages/numpy/core/include/numpy" "${dest_dir}/local_config_python/numpy_include/"
   mkdir -p "${dest_dir}/local_config_python/python_include/"
   if is_windows; then
     cp -r python_*/include/* "${dest_dir}/local_config_python/python_include/"

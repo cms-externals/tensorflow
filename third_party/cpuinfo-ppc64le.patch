@@ -1,0 +1,33 @@
+From 84aae4fe0f7bc111dd1fb1d8a7501128a6adff3c Mon Sep 17 00:00:00 2001
+From: Nishidha Panpaliya <npanpa23@in.ibm.com>
+Date: Thu, 27 Jul 2023 10:46:51 +0000
+Subject: [PATCH] Add support for linux ppc64le architecture
+
+---
+ BUILD.bazel | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/BUILD.bazel b/BUILD.bazel
+index 231d18f9..e7134e0f 100644
+--- a/BUILD.bazel
++++ b/BUILD.bazel
+@@ -113,6 +113,7 @@ cc_library(
+         ":linux_mips64": COMMON_SRCS + LINUX_SRCS,
+         ":linux_riscv64": COMMON_SRCS + LINUX_SRCS,
+         ":linux_s390x": COMMON_SRCS + LINUX_SRCS,
++        ":linux_ppc64le": COMMON_SRCS + LINUX_SRCS,
+         ":macos_x86_64": COMMON_SRCS + X86_SRCS + MACH_SRCS + MACH_X86_SRCS,
+         ":macos_x86_64_legacy": COMMON_SRCS + X86_SRCS + MACH_SRCS + MACH_X86_SRCS,
+         ":macos_arm64": COMMON_SRCS + MACH_SRCS + MACH_ARM_SRCS,
+@@ -241,6 +242,11 @@ config_setting(
+     values = {"cpu": "s390x"},
+ )
+ 
++config_setting(
++    name = "linux_ppc64le",
++    values = {"cpu": "ppc"},
++)
++
+ config_setting(
+     name = "macos_x86_64_legacy",
+     values = {
