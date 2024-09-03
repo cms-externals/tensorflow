@@ -326,6 +326,8 @@ matches = []
 for path in so_lib_paths:
   matches.extend(['../' + x for x in find_files('*', path) if '.py' not in x])
 
+matches.extend([x for x in find_files('*.a', '.')])
+
 # If building a tpu package, LibTPU for Cloud TPU VM can be installed via:
 # $ pip install <tf-tpu project> -f https://storage.googleapis.com/libtpu-releases/index.html
 # libtpu is built and uploaded to this link every night (PST).
