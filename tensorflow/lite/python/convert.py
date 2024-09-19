@@ -22,7 +22,7 @@ import subprocess as _subprocess
 import tempfile as _tempfile
 from typing import Optional
 import warnings
-import shutils
+import shutil
 
 from tensorflow.compiler.mlir.quantization.stablehlo import quantization_config_pb2
 from tensorflow.compiler.mlir.quantization.stablehlo import quantization_options_pb2 as quant_opts_pb2
