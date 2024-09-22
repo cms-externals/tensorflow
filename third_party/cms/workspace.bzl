@@ -97,6 +97,7 @@ def zlib():
         build_file = "//third_party/systemlibs:zlib.BUILD",
         symlinks = {
             "include/zlib.h": "zlib.h",
+            "include/zconf.h": "zconf.h",
         },
     )
 
