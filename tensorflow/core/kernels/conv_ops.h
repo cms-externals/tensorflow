@@ -77,10 +77,10 @@ struct LaunchConvOp<Eigen::GpuDevice, T> {
 // It uses malloc and free to avoid the time cost of initializing the memory.
 template <class T, size_t size>
 struct Im2ColBufferResource : public ResourceBase {
-  Im2ColBufferResource<T, size>() {
+  Im2ColBufferResource() {
     data = static_cast<T*>(port::Malloc(size * sizeof(T)));
   }
-  ~Im2ColBufferResource<T, size>() { port::Free(data); }
+  ~Im2ColBufferResource() { port::Free(data); }
   // This mutex ensures that only a single operation at a time is able to use
   // the buffer memory held by this resource.
   mutex mu;

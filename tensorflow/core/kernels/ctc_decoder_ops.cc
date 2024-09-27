@@ -372,7 +372,7 @@ class CTCBeamSearchDecoderOp : public OpKernel {
   typename ctc::CTCBeamSearchDecoder<T>::DefaultBeamScorer beam_scorer_;
   bool merge_repeated_;
   int beam_width_;
-  CTCBeamSearchDecoderOp<T>(const CTCBeamSearchDecoderOp<T>&) = delete;
+  CTCBeamSearchDecoderOp(const CTCBeamSearchDecoderOp&) = delete;
   void operator=(const CTCBeamSearchDecoderOp<T>&) = delete;
 };
 

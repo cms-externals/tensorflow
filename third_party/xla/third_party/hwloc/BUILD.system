@@ -15,8 +15,9 @@ filegroup(
 cc_library(
     name = "hwloc",
     linkopts = select({
-        ":with_numa_support": ["-lhwloc"],
+        ":with_numa_support": ["-Lexternal/hwloc/lib -lhwloc"],
         "//conditions:default": [],
     }),
+    includes = ["include"],
     visibility = ["//visibility:public"],
 )

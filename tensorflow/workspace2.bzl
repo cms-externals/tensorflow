@@ -11,7 +11,6 @@ load("@xla//third_party/benchmark:workspace.bzl", benchmark = "repo")
 load("@xla//third_party/clang_toolchain:cc_configure_clang.bzl", "cc_download_clang_toolchain")
 load("@xla//third_party/dlpack:workspace.bzl", dlpack = "repo")
 load("@xla//third_party/ducc:workspace.bzl", ducc = "repo")
-load("@xla//third_party/eigen3:workspace.bzl", eigen3 = "repo")
 load("@xla//third_party/farmhash:workspace.bzl", farmhash = "repo")
 load("@xla//third_party/fmt:workspace.bzl", fmt = "repo")
 load("@xla//third_party/FP16:workspace.bzl", FP16 = "repo")
@@ -20,7 +19,6 @@ load("@xla//third_party/git:git_configure.bzl", "git_configure")
 load("@xla//third_party/gpus:rocm_configure.bzl", "rocm_configure")
 load("@xla//third_party/gpus:sycl_configure.bzl", "sycl_configure")
 load("@xla//third_party/highwayhash:workspace.bzl", highwayhash = "repo")
-load("@xla//third_party/hwloc:workspace.bzl", hwloc = "repo")
 load("@xla//third_party/implib_so:workspace.bzl", implib_so = "repo")
 load("@xla//third_party/llvm:workspace.bzl", llvm = "repo")
 load("@xla//third_party/nanobind:workspace.bzl", nanobind = "repo")
@@ -49,10 +47,8 @@ load("@xla//tools/toolchains/remote:configure.bzl", "remote_execution_configure"
 load("@xla//tools/toolchains/remote_config:configs.bzl", "initialize_rbe_configs")
 load("//third_party:repo.bzl", "tf_http_archive", "tf_mirror_urls")
 load("//third_party/com_google_highway:workspace.bzl", com_google_highway = "repo")
-load("//third_party/flatbuffers:workspace.bzl", flatbuffers = "repo")
 load("//third_party/hexagon:workspace.bzl", hexagon_nn = "repo")
 load("//third_party/icu:workspace.bzl", icu = "repo")
-load("//third_party/jpeg:workspace.bzl", jpeg = "repo")
 load("//third_party/jpegxl:workspace.bzl", jpegxl = "repo")
 load("//third_party/kissfft:workspace.bzl", kissfft = "repo")
 load("//third_party/libprotobuf_mutator:workspace.bzl", libprotobuf_mutator = "repo")
@@ -68,6 +64,9 @@ load("//third_party/sobol_data:workspace.bzl", sobol_data = "repo")
 load("//third_party/systemlibs:syslibs_configure.bzl", "syslibs_configure")
 load("//third_party/vulkan_headers:workspace.bzl", vulkan_headers = "repo")
 
+#import CMS specific repos
+load("//third_party/cms:workspace.bzl", cms = "repos")
+
 def _initialize_third_party():
     """ Load third party repositories.  See above load() statements. """
     FP16()
@@ -77,17 +76,13 @@ def _initialize_third_party():
     com_google_highway()
     ducc()
     dlpack()
-    eigen3()
     farmhash()
-    flatbuffers()
     fmt()
     gemmlowp()
     hexagon_nn()
     highwayhash()
-    hwloc()
     icu()
     implib_so()
-    jpeg()
     jpegxl()
     kissfft()
     libprotobuf_mutator()
@@ -116,6 +111,7 @@ def _initialize_third_party():
     tensorrt()
     nvshmem()
     triton()
+    cms()
 
     # copybara: tsl vendor
 
@@ -356,54 +352,6 @@ def _tf_repositories():
         urls = tf_mirror_urls("https://github.com/googleapis/googleapis/archive/6b3fdcea8bc5398be4e7e9930c693f0ea09316a0.tar.gz"),
     )
 
-    tf_http_archive(
-        name = "png",
-        build_file = "//third_party:png.BUILD",
-        patch_file = ["//third_party:png_fix_rpi.patch"],
-        sha256 = "fecc95b46cf05e8e3fc8a414750e0ba5aad00d89e9fdf175e94ff041caf1a03a",
-        strip_prefix = "libpng-1.6.43",
-        system_build_file = "//third_party/systemlibs:png.BUILD",
-        urls = tf_mirror_urls("https://github.com/glennrp/libpng/archive/v1.6.43.tar.gz"),
-    )
-
-    tf_http_archive(
-        name = "org_sqlite",
-        build_file = "//third_party:sqlite.BUILD",
-        sha256 = "9ad6d16cbc1df7cd55c8b55127c82a9bca5e9f287818de6dc87e04e73599d754",
-        strip_prefix = "sqlite-amalgamation-3500300",
-        system_build_file = "//third_party/systemlibs:sqlite.BUILD",
-        urls = tf_mirror_urls("https://www.sqlite.org/2025/sqlite-amalgamation-3500300.zip"),
-    )
-
-    tf_http_archive(
-        name = "gif",
-        build_file = "//third_party:gif.BUILD",
-        patch_file = [
-            "//third_party:gif_fix_strtok_r.patch",
-            "//third_party:gif_fix_image_counter.patch",
-        ],
-        sha256 = "31da5562f44c5f15d63340a09a4fd62b48c45620cd302f77a6d9acf0077879bd",
-        strip_prefix = "giflib-5.2.1",
-        system_build_file = "//third_party/systemlibs:gif.BUILD",
-        urls = tf_mirror_urls("https://pilotfiber.dl.sourceforge.net/project/giflib/giflib-5.2.1.tar.gz"),
-    )
-
-    tf_http_archive(
-        name = "six_archive",
-        build_file = "@xla//third_party:six.BUILD",
-        sha256 = "1e61c37477a1626458e36f7b1d82aa5c9b094fa4802892072e49de9c60c4c926",
-        strip_prefix = "six-1.16.0",
-        system_build_file = "//third_party/systemlibs:six.BUILD",
-        urls = tf_mirror_urls("https://pypi.python.org/packages/source/s/six/six-1.16.0.tar.gz"),
-    )
-
-    tf_http_archive(
-        name = "absl_py",
-        sha256 = "8a3d0830e4eb4f66c4fa907c06edf6ce1c719ced811a12e26d9d3162f8471758",
-        strip_prefix = "abseil-py-2.1.0",
-        urls = tf_mirror_urls("https://github.com/abseil/abseil-py/archive/refs/tags/v2.1.0.tar.gz"),
-    )
-
     maybe(
         tf_http_archive,
         name = "com_google_protobuf",
@@ -458,26 +406,6 @@ def _tf_repositories():
     )
 
     tf_http_archive(
-        name = "curl",
-        build_file = "@xla//third_party:curl.BUILD",
-        sha256 = "264537d90e58d2b09dddc50944baf3c38e7089151c8986715e2aaeaaf2b8118f",
-        strip_prefix = "curl-8.11.0",
-        system_build_file = "//third_party/systemlibs:curl.BUILD",
-        urls = tf_mirror_urls("https://curl.se/download/curl-8.11.0.tar.gz"),
-    )
-
-    tf_http_archive(
-        name = "com_github_grpc_grpc",
-        sha256 = "dd6a2fa311ba8441bbefd2764c55b99136ff10f7ea42954be96006a2723d33fc",
-        strip_prefix = "grpc-1.74.0",
-        system_build_file = "//third_party/systemlibs:grpc.BUILD",
-        patch_file = [
-            "@xla//third_party/grpc:grpc.patch",
-        ],
-        urls = tf_mirror_urls("https://github.com/grpc/grpc/archive/refs/tags/v1.74.0.tar.gz"),
-    )
-
-    tf_http_archive(
         name = "linenoise",
         build_file = "//third_party:linenoise.BUILD",
         sha256 = "b35a74dbc9cd2fef9e4d56222761d61daf7e551510e6cd1a86f0789b548d074e",
@@ -513,16 +441,6 @@ def _tf_repositories():
         strip_prefix = "boringssl-c00d7ca810e93780bd0c8ee4eea28f4f2ea4bcdc",
         system_build_file = "//third_party/systemlibs:boringssl.BUILD",
         urls = tf_mirror_urls("https://github.com/google/boringssl/archive/c00d7ca810e93780bd0c8ee4eea28f4f2ea4bcdc.tar.gz"),
-    )
-
-    # Note: if you update this, you have to update libpng too. See cl/437813808
-    tf_http_archive(
-        name = "zlib",
-        build_file = "@xla//third_party:zlib.BUILD",
-        sha256 = "9a93b2b7dfdac77ceba5a558a580e74667dd6fede4585b91eefb60f03b72df23",
-        strip_prefix = "zlib-1.3.1",
-        system_build_file = "//third_party/systemlibs:zlib.BUILD",
-        urls = tf_mirror_urls("https://zlib.net/fossils/zlib-1.3.1.tar.gz"),
     )
 
     # LINT.IfChange
@@ -636,15 +554,6 @@ def _tf_repositories():
         sha256 = "b844b75c25cfe7ea34b832b369ab91234009b2dfe2ae1fcea53860c57253fe2e",
         strip_prefix = "pprof-83db2b799d1f74c40857232cb5eb4c60379fe6c2",
         urls = tf_mirror_urls("https://github.com/google/pprof/archive/83db2b799d1f74c40857232cb5eb4c60379fe6c2.tar.gz"),
-    )
-
-    tf_http_archive(
-        name = "cython",
-        build_file = "@xla//third_party:cython.BUILD",
-        sha256 = "da72f94262c8948e04784c3e6b2d14417643703af6b7bd27d6c96ae7f02835f1",
-        strip_prefix = "cython-3.1.2",
-        system_build_file = "//third_party/systemlibs:cython.BUILD",
-        urls = tf_mirror_urls("https://github.com/cython/cython/archive/3.1.2.tar.gz"),
     )
 
     # LINT.IfChange
@@ -786,15 +695,6 @@ def _tf_repositories():
         sha256 = "5daca6ca216495edf89d167f808d1d03c4a4d929cef7da5e10f135ae1540c7e4",
         strip_prefix = "json-3.10.5",
         urls = tf_mirror_urls("https://github.com/nlohmann/json/archive/v3.10.5.tar.gz"),
-    )
-
-    tf_http_archive(
-        name = "pybind11",
-        urls = tf_mirror_urls("https://github.com/pybind/pybind11/archive/v2.13.6.tar.gz"),
-        sha256 = "e08cb87f4773da97fa7b5f035de8763abc656d87d5773e62f6da0587d1f0ec20",
-        strip_prefix = "pybind11-2.13.6",
-        build_file = "@xla//third_party:pybind11.BUILD",
-        system_build_file = "//third_party/systemlibs:pybind11.BUILD",
     )
 
     tf_http_archive(

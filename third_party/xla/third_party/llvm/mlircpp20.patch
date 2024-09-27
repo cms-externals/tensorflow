@@ -1,0 +1,13 @@
+diff --git a/mlir/lib/Pass/PassRegistry.cpp b/mlir/lib/Pass/PassRegistry.cpp
+index b0c314369190a4..35ac4b8fd280ea 100644
+--- a/mlir/lib/Pass/PassRegistry.cpp
++++ b/mlir/lib/Pass/PassRegistry.cpp
+@@ -436,7 +436,7 @@ llvm::cl::OptionValue<OpPassManager>::operator=(
+   return *this;
+ }
+ 
+-llvm::cl::OptionValue<OpPassManager>::~OptionValue<OpPassManager>() = default;
++llvm::cl::OptionValue<OpPassManager>::~OptionValue() = default;
+ 
+ void llvm::cl::OptionValue<OpPassManager>::setValue(
+     const OpPassManager &newValue) {

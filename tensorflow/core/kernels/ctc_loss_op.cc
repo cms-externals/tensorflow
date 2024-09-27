@@ -221,7 +221,7 @@ class CTCLossOp : public OpKernel {
   bool ctc_merge_repeated_;
   bool ignore_longer_outputs_than_inputs_;
 
-  CTCLossOp<T>(const CTCLossOp<T>&) = delete;
+  CTCLossOp(const CTCLossOp&) = delete;
   void operator=(const CTCLossOp<T>&) = delete;
 };
 
