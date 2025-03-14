@@ -101,7 +101,6 @@ _COPTS_LIST = select({
     "-UUSE_MKL",
     "-UUSE_CBLAS",
     "-DDNNL_ENABLE_MAX_CPU_ISA",
-    "-DDNNL_ENABLE_MEM_DEBUG",
 ] + tf_openmp_copts()
 
 _INCLUDES_LIST = [
