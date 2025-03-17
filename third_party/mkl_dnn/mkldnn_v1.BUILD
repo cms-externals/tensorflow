@@ -102,6 +102,7 @@ _COPTS_LIST = select({
     "-UUSE_CBLAS",
     "-DDNNL_ENABLE_MAX_CPU_ISA",
     "-fno-omit-frame-pointer",
+    "-g",
 ] + tf_openmp_copts()
 
 _INCLUDES_LIST = [
