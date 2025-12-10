@@ -1,18 +1,23 @@
+diff --git a/absl/base/config.h b/absl/base/config.h
+index b8ae9b68..5d2c2968 100644
+--- a/absl/base/config.h
++++ b/absl/base/config.h
+@@ -899,7 +899,7 @@ static_assert(ABSL_INTERNAL_INLINE_NAMESPACE_STR[0] != 'h' ||
+ // https://llvm.org/docs/CompileCudaWithLLVM.html#detecting-clang-vs-nvcc-from-code
+ #ifdef ABSL_INTERNAL_HAVE_ARM_NEON
+ #error ABSL_INTERNAL_HAVE_ARM_NEON cannot be directly set
+-#elif defined(__ARM_NEON) && !defined(__CUDA_ARCH__)
++#elif defined(__ARM_NEON) && !defined(__CUDACC__)
+ #define ABSL_INTERNAL_HAVE_ARM_NEON 1
+ #endif
+ 
 diff --git a/absl/container/internal/compressed_tuple.h b/absl/container/internal/compressed_tuple.h
-index 5ebe1649..01db7134 100644
+index 59e70eb2..8f6e9e59 100644
 --- a/absl/container/internal/compressed_tuple.h
 +++ b/absl/container/internal/compressed_tuple.h
-@@ -32,7 +32,6 @@
- #ifndef ABSL_CONTAINER_INTERNAL_COMPRESSED_TUPLE_H_
- #define ABSL_CONTAINER_INTERNAL_COMPRESSED_TUPLE_H_
- 
--#include <initializer_list>
- #include <tuple>
- #include <type_traits>
- #include <utility>
-@@ -77,134 +76,61 @@ constexpr bool IsFinal() {
- #endif
- }
+@@ -64,121 +64,55 @@ struct Elem<CompressedTuple<B...>, I>
+ template <typename D, size_t I>
+ using ElemT = typename Elem<D, I>::type;
  
 -// We can't use EBCO on other CompressedTuples because that would mean that we
 -// derive from multiple Storage<> instantiations with the same I parameter,
@@ -23,21 +28,16 @@ index 5ebe1649..01db7134 100644
 -
  template <typename T>
  constexpr bool ShouldUseBase() {
--  return std::is_class<T>::value && std::is_empty<T>::value && !IsFinal<T>() &&
+   return std::is_class<T>::value && std::is_empty<T>::value &&
+-         !std::is_final<T>::value &&
 -         !std::is_base_of<uses_inheritance, T>::value;
-+  return std::is_class<T>::value && std::is_empty<T>::value && !IsFinal<T>();
++         !std::is_final<T>::value;
  }
  
  // The storage class provides two specializations:
  //  - For empty classes, it stores T as a base class.
  //  - For everything else, it stores T as a member.
--template <typename T, size_t I,
--#if defined(_MSC_VER)
--          bool UseBase =
--              ShouldUseBase<typename std::enable_if<true, T>::type>()>
--#else
--          bool UseBase = ShouldUseBase<T>()>
--#endif
+-template <typename T, size_t I, bool UseBase = ShouldUseBase<T>()>
 +template <typename D, size_t I, bool = ShouldUseBase<ElemT<D, I>>()>
  struct Storage {
 +  using T = ElemT<D, I>;
@@ -88,8 +88,7 @@ index 5ebe1649..01db7134 100644
      //   error C3548: 'I': parameter pack cannot be used in this context
 -    : uses_inheritance,
 -      Storage<Ts, std::integral_constant<size_t, I>::value>... {
-+    : Storage<CompressedTuple<Ts...>,
-+              std::integral_constant<size_t, I>::value>... {
++    : Storage<CompressedTuple<Ts...>, std::integral_constant<size_t, I>::value>... {
    constexpr CompressedTupleImpl() = default;
 -  template <typename... Vs>
 -  explicit constexpr CompressedTupleImpl(absl::in_place_t, Vs&&... args)
@@ -154,16 +153,7 @@ index 5ebe1649..01db7134 100644
  }  // namespace internal_compressed_tuple
  
  // Helper class to perform the Empty Base Class Optimization.
- // Ts can contain classes and non-classes, empty or not. For the ones that
- // are empty classes, we perform the CompressedTuple. If all types in Ts are
--// empty classes, then CompressedTuple<Ts...> is itself an empty class.  (This
--// does not apply when one or more of those empty classes is itself an empty
--// CompressedTuple.)
-+// empty classes, then CompressedTuple<Ts...> is itself an empty class.
- //
- // To access the members, use member .get<N>() function.
- //
-@@ -220,59 +146,36 @@ struct TupleItemsMoveConstructible
+@@ -202,62 +136,38 @@ struct TupleItemsMoveConstructible
  template <typename... Ts>
  class ABSL_INTERNAL_COMPRESSED_TUPLE_DECLSPEC CompressedTuple
      : private internal_compressed_tuple::CompressedTupleImpl<
@@ -231,37 +221,23 @@ index 5ebe1649..01db7134 100644
 +        .internal_compressed_tuple::template Storage<CompressedTuple, I>::get();
    }
  };
- 
+-
+ // Explicit specialization for a zero-element tuple
+ // (needed to avoid ambiguous overloads for the default constructor).
+ template <>
 diff --git a/absl/time/internal/cctz/BUILD.bazel b/absl/time/internal/cctz/BUILD.bazel
-index 7304d40d..75d8e086 100644
+index 4c5ad075..0ec8e666 100644
 --- a/absl/time/internal/cctz/BUILD.bazel
 +++ b/absl/time/internal/cctz/BUILD.bazel
-@@ -72,15 +72,6 @@ cc_library(
+@@ -53,11 +53,6 @@ cc_library(
          "include/cctz/time_zone.h",
          "include/cctz/zone_info_source.h",
      ],
 -    linkopts = select({
--        ":osx": [
--            "-framework Foundation",
--        ],
--        ":ios": [
--            "-framework Foundation",
--        ],
+-        "@platforms//os:osx": ["-Wl,-framework,CoreFoundation"],
+-        "@platforms//os:ios": ["-Wl,-framework,CoreFoundation"],
 -        "//conditions:default": [],
 -    }),
      visibility = ["//visibility:public"],
      deps = [
          ":civil_time",
-diff --git a/absl/base/config.h b/absl/base/config.h
-index 8533aea..07b4e80 100644
---- a/absl/base/config.h.orig
-+++ b/absl/base/config.h
-@@ -906,7 +906,7 @@ static_assert(ABSL_INTERNAL_INLINE_NAMESPACE_STR[0] != 'h' ||
- // SIMD).
- #ifdef ABSL_INTERNAL_HAVE_ARM_NEON
- #error ABSL_INTERNAL_HAVE_ARM_NEON cannot be directly set
--#elif defined(__ARM_NEON)
-+#elif defined(__ARM_NEON) && !defined(__CUDACC__)
- #define ABSL_INTERNAL_HAVE_ARM_NEON 1
- #endif
- 
