@@ -1,0 +1,36 @@
+diff --git a/llvm/include/llvm/ADT/SmallVector.h b/llvm/include/llvm/ADT/SmallVector.h
+index 98dce89..a52947e 100644
+--- a/llvm/include/llvm/ADT/SmallVector.h
++++ b/llvm/include/llvm/ADT/SmallVector.h
+@@ -19,6 +19,7 @@
+ #include <algorithm>
+ #include <cassert>
+ #include <cstddef>
++#include <cstdint>
+ #include <cstdlib>
+ #include <cstring>
+ #include <functional>
+diff --git a/llvm/lib/Target/X86/MCTargetDesc/X86MCTargetDesc.h b/llvm/lib/Target/X86/MCTargetDesc/X86MCTargetDesc.h
+index 437a7bd..fd7d794 100644
+--- a/llvm/lib/Target/X86/MCTargetDesc/X86MCTargetDesc.h
++++ b/llvm/lib/Target/X86/MCTargetDesc/X86MCTargetDesc.h
+@@ -13,6 +13,7 @@
+ #ifndef LLVM_LIB_TARGET_X86_MCTARGETDESC_X86MCTARGETDESC_H
+ #define LLVM_LIB_TARGET_X86_MCTARGETDESC_X86MCTARGETDESC_H
+ 
++#include <cstdint>
+ #include <memory>
+ #include <string>
+ 
+diff --git a/mlir/include/mlir/Dialect/Linalg/Transforms/HoistPadding.h b/mlir/include/mlir/Dialect/Linalg/Transforms/HoistPadding.h
+index e257eba..cc37a16 100644
+--- a/mlir/include/mlir/Dialect/Linalg/Transforms/HoistPadding.h
++++ b/mlir/include/mlir/Dialect/Linalg/Transforms/HoistPadding.h
+@@ -9,6 +9,7 @@
+ #ifndef MLIR_DIALECT_LINALG_TRANSFORMS_HOISTPADDING_H
+ #define MLIR_DIALECT_LINALG_TRANSFORMS_HOISTPADDING_H
+ 
++#include <cstdint>
+ #include "mlir/Support/LogicalResult.h"
+ 
+ namespace mlir {
