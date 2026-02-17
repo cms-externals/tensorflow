@@ -170,7 +170,7 @@ TransposeOperator* FindTransposeOpWithInput(const Model& model,
   fc_op->outputs = matmul_op->outputs;
 
   // Insert the newly constructed FullyConnectedOperator.
-  model->operators.emplace(matmul_it, fc_op) + 1;
+  model->operators.emplace(matmul_it, fc_op);
 
   // Find the op producing the array passed to this MatMul
   auto previous_op_it = model->operators.begin();
