@@ -1,3 +1,16 @@
+diff --git a/llvm/include/llvm/ADT/iterator.h b/llvm/include/llvm/ADT/iterator.h
+index 6f0c42f..c0495e2 100644
+--- a/llvm/include/llvm/ADT/iterator.h
++++ b/llvm/include/llvm/ADT/iterator.h
+@@ -267,6 +267,8 @@ public:
+     return *static_cast<DerivedT *>(this);
+   }
+   using BaseT::operator-;
++  template <bool Enabled = BaseT::IsRandomAccess,
++            typename = std::enable_if_t<Enabled>>
+   difference_type operator-(const DerivedT &RHS) const {
+     static_assert(
+         BaseT::IsRandomAccess,
 diff --git a/llvm/include/llvm/ADT/STLExtras.h b/llvm/include/llvm/ADT/STLExtras.h
 index 08a708e5c..b325f41ca 100644
 --- a/llvm/include/llvm/ADT/STLExtras.h
