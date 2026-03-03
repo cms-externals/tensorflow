@@ -126,7 +126,7 @@ REQUIRED_PACKAGES = [
     'keras >= 3.12.0',
     'numpy >= 1.26.0',
     # Starting with 3.15, only MacOS 14 and 15 are supported.
-    'h5py >= 3.11.0, < 3.15.0',
+    'h5py >= 3.11.0, < 3.15.0' if sys.version_info.minor <= 13 else 'h5py ~= 3.15.1',
     'ml_dtypes >= 0.5.1, < 1.0.0',
 ]
 
