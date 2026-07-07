@@ -1,0 +1,22 @@
+diff --git a/src/ducc0/infra/mav.h b/src/ducc0/infra/mav.h
+index 73f0441..5b91abb 100644
+--- a/src/ducc0/infra/mav.h
++++ b/src/ducc0/infra/mav.h
+@@ -640,7 +640,7 @@ template<typename T> class vfmav: public cfmav<T>
+ 
+     T *data() const
+      { return const_cast<T *>(tbuf::d); }
+-    template<typename I> T &raw(I i) const
++    template<typename I> T &raw(I i)
+       { return data()[i]; }
+ 
+     // no-op. Needed for template tricks.
+@@ -853,7 +853,7 @@ template<typename T, size_t ndim> class vmav: public cmav<T, ndim>
+     vfmav<T> to_fmav() const { return operator vfmav<T>(); }
+ 
+     using parent::operator();
+-    template<typename... Ns> T &operator()(Ns... ns) const
++    template<typename... Ns> T &operator()(Ns... ns)
+       { return const_cast<T &>(parent::operator()(ns...)); }
+ 
+     template<size_t nd2> vmav<T,nd2> subarray(const vector<slice> &slices) const

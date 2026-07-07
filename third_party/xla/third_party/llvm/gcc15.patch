@@ -1,0 +1,29 @@
+diff --git a/llvm/include/llvm/ADT/STLExtras.h b/llvm/include/llvm/ADT/STLExtras.h
+index 08a708e5c..b325f41ca 100644
+--- a/llvm/include/llvm/ADT/STLExtras.h
++++ b/llvm/include/llvm/ADT/STLExtras.h
+@@ -1219,6 +1219,7 @@ public:
+   class iterator : public indexed_accessor_iterator<iterator, BaseT, T,
+                                                     PointerT, ReferenceT> {
+   public:
++    iterator() : indexed_accessor_iterator<iterator, BaseT, T, PointerT, ReferenceT>(nullptr, 0) {}
+     // Index into this iterator, invoking a static method on the derived type.
+     ReferenceT operator*() const {
+       return DerivedT::dereference_iterator(this->getBase(), this->getIndex());
+diff --git a/llvm/lib/ExecutionEngine/JITLink/DefineExternalSectionStartAndEndSymbols.h b/llvm/lib/ExecutionEngine/JITLink/DefineExternalSectionStartAndEndSymbols.h
+index 4a492ee2f..a7ede4bf7 100644
+--- a/llvm/lib/ExecutionEngine/JITLink/DefineExternalSectionStartAndEndSymbols.h
++++ b/llvm/lib/ExecutionEngine/JITLink/DefineExternalSectionStartAndEndSymbols.h
+@@ -43,8 +43,9 @@ public:
+ 
+     // This pass will affect the external symbols set, so copy them out into a
+     // vector and iterate over that.
+-    std::vector<Symbol *> Externals(G.external_symbols().begin(),
+-                                    G.external_symbols().end());
++    std::vector<Symbol *> Externals;
++    for (auto S : G.external_symbols())
++      Externals.push_back(S);
+ 
+     for (auto *Sym : Externals) {
+       SectionRangeSymbolDesc D = F(G, *Sym);
+ 

@@ -173,7 +173,7 @@ absl::Status ResolveTensorFlowMatMul::Run(Model* model, std::size_t op_index,
   fc_op->outputs = matmul_op->outputs;
 
   // Insert the newly constructed FullyConnectedOperator.
-  model->operators.emplace(matmul_it, fc_op) + 1;
+  model->operators.emplace(matmul_it, fc_op);
 
   // Find the op producing the array passed to this MatMul
   auto previous_op_it = model->operators.begin();

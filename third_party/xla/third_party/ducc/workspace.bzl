@@ -18,4 +18,5 @@ def repo():
             "//third_party/ducc:threading.cc": "google/threading.cc",
             "//third_party/ducc:threading.h": "google/threading.h",
         },
+        patch_file = ["//third_party/ducc:gcc15.patch"],
     )
