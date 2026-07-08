@@ -10,6 +10,12 @@ load("@rules_foreign_cc//foreign_cc:repositories.bzl", "rules_foreign_cc_depende
 load("//third_party:repo.bzl", "tf_http_archive", "tf_mirror_urls")
 load("//third_party/googleapis:repository_rules.bzl", "config_googleapis")
 
+# CMS: protobuf's proto_library.bzl needs the @proto_bazel_features repo, which
+# upstream registers as a side effect of grpc_extra_deps() -> protobuf_deps().
+# The CMS system-grpc build drops grpc_extra_deps(), so register it directly.
+# buildifier: disable=bzl-visibility
+load("@com_google_protobuf//bazel/private:proto_bazel_features.bzl", "proto_bazel_features")
+
 def _tf_bind():
     """Bind targets for some external repositories"""
     ##############################################################################
@@ -98,6 +104,10 @@ def workspace():
     # If a target is bound twice, the later one wins, so we have to do tf bindings
     # at the end of the WORKSPACE file.
     _tf_bind()
+
+    # CMS: register @proto_bazel_features (needed by protobuf's proto_library.bzl)
+    if not native.existing_rule("proto_bazel_features"):
+        proto_bazel_features(name = "proto_bazel_features")
 
     rules_foreign_cc_dependencies()
     config_googleapis()
