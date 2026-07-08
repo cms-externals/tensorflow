@@ -37,6 +37,7 @@ def grpc():
             "//third_party/systemlibs:grpc.bazel.generate_cc.bzl":     "bazel/generate_cc.bzl",
             "//third_party/systemlibs:grpc.bazel.grpc_extra_deps.bzl": "bazel/grpc_extra_deps.bzl",
             "//third_party/systemlibs:grpc.bazel.cc_grpc_library.bzl": "bazel/cc_grpc_library.bzl",
+            "//third_party/systemlibs:grpc.bazel.python_rules.bzl":    "bazel/python_rules.bzl",
             "//third_party/systemlibs:grpc.bazel.grpc_deps.bzl":       "bazel/grpc_deps.bzl",
             "//third_party/systemlibs:grpc.bazel.protobuf.bzl":        "bazel/protobuf.bzl",
             "//third_party/systemlibs:BUILD.bazel":                    "bazel/BUILD",
