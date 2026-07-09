@@ -16,6 +16,10 @@ load("//third_party/googleapis:repository_rules.bzl", "config_googleapis")
 # buildifier: disable=bzl-visibility
 load("@com_google_protobuf//bazel/private:proto_bazel_features.bzl", "proto_bazel_features")
 
+# CMS: protobuf's python/BUILD.bazel references @system_python, normally registered by
+# protobuf_deps() (dropped with grpc_extra_deps() in the system-grpc build).
+load("@com_google_protobuf//python/dist:system_python.bzl", "system_python")
+
 # CMS: rules_java (8.6.1, registered in tf_workspace1) needs its @compatibility_proxy repo;
 # rules_java's own java_runtime.bzl loads @compatibility_proxy//:proxy.bzl.
 load("@rules_java//java:rules_java_deps.bzl", "compatibility_proxy_repo")
@@ -112,6 +116,10 @@ def workspace():
     # CMS: register @proto_bazel_features (needed by protobuf's proto_library.bzl)
     if not native.existing_rule("proto_bazel_features"):
         proto_bazel_features(name = "proto_bazel_features")
+
+    # CMS: register @system_python (needed by protobuf's python/BUILD.bazel)
+    if not native.existing_rule("system_python"):
+        system_python(name = "system_python", minimum_python_version = "3.9")
 
     # CMS: create rules_java 8.6.1's @compatibility_proxy repo (self-guarded via maybe()).
     # Only this repo is needed to satisfy the java_runtime.bzl load; the full
