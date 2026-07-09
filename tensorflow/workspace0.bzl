@@ -16,6 +16,10 @@ load("//third_party/googleapis:repository_rules.bzl", "config_googleapis")
 # buildifier: disable=bzl-visibility
 load("@com_google_protobuf//bazel/private:proto_bazel_features.bzl", "proto_bazel_features")
 
+# CMS: rules_java (8.6.1, registered in tf_workspace1) needs its @compatibility_proxy repo;
+# rules_java's own java_runtime.bzl loads @compatibility_proxy//:proxy.bzl.
+load("@rules_java//java:rules_java_deps.bzl", "compatibility_proxy_repo")
+
 def _tf_bind():
     """Bind targets for some external repositories"""
     ##############################################################################
@@ -109,18 +113,10 @@ def workspace():
     if not native.existing_rule("proto_bazel_features"):
         proto_bazel_features(name = "proto_bazel_features")
 
-    # CMS: protobuf 6.31.1's java_proto rules load @rules_java//java/private:proto_support.bzl,
-    # which only exists in rules_java 8.x. Bazel 7.7.0 bundles an older rules_java, and the
-    # upstream override (grpc_extra_deps() -> protobuf_deps()) is dropped in the system-grpc
-    # build. Register rules_java 8.6.1 directly, exactly as protobuf_deps() does.
-    if not native.existing_rule("rules_java"):
-        http_archive(
-            name = "rules_java",
-            urls = [
-                "https://github.com/bazelbuild/rules_java/releases/download/8.6.1/rules_java-8.6.1.tar.gz",
-            ],
-            sha256 = "c5bc17e17bb62290b1fd8fdd847a2396d3459f337a7e07da7769b869b488ec26",
-        )
+    # CMS: create rules_java 8.6.1's @compatibility_proxy repo (self-guarded via maybe()).
+    # Only this repo is needed to satisfy the java_runtime.bzl load; the full
+    # rules_java_dependencies() would also pull protobuf/rules_cc/skylib repos TF already has.
+    compatibility_proxy_repo()
 
     rules_foreign_cc_dependencies()
     config_googleapis()
