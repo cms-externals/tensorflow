@@ -1,3 +1,5 @@
+load("@rules_python//python:py_library.bzl", "py_library")
+
 licenses(["notice"])  # Apache v2
 
 filegroup(
@@ -83,7 +85,9 @@ sh_binary(
 # for `import grpc`; the actual grpcio package is provided by the system Python
 # environment, so this is an empty py_library that only satisfies the PyInfo dep
 # (py_grpc_library's grpc_library attr) -- the CMS system-grpc repo has no
-# in-source //src/python/grpcio/grpc:grpcio target.
+# in-source //src/python/grpcio/grpc:grpcio target. It uses rules_python's
+# py_library (loaded above) so it provides rules_python's PyInfo, which is the
+# provider python_rules.bzl checks for (the native py_library's PyInfo differs).
 py_library(
     name = "grpcio",
     visibility = ["//visibility:public"],
