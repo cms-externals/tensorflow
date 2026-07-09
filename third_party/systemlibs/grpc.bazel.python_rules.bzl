@@ -286,7 +286,7 @@ _generate_pb2_grpc_src = rule(
         "_grpc_plugin": attr.label(
             executable = True,
             cfg = "exec",
-            default = Label("//src/compiler:grpc_python_plugin"),
+            default = Label("//:grpc_python_plugin"),
         ),
         "_protoc": attr.label(
             executable = True,
@@ -294,7 +294,7 @@ _generate_pb2_grpc_src = rule(
             default = Label("@com_google_protobuf//:protoc"),
         ),
         "grpc_library": attr.label(
-            default = Label("//src/python/grpcio/grpc:grpcio"),
+            default = Label("//:grpcio"),
             providers = [PyInfo],
         ),
     },
@@ -306,7 +306,7 @@ def py_grpc_library(
         srcs,
         deps,
         strip_prefixes = [],
-        grpc_library = Label("//src/python/grpcio/grpc:grpcio"),
+        grpc_library = Label("//:grpcio"),
         **kwargs):
     """Generate python code for gRPC services defined in a protobuf.
 

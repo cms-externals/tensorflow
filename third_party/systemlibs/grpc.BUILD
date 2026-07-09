@@ -78,3 +78,13 @@ sh_binary(
     srcs = ["grpc_python_plugin.bin"],
     visibility = ["//visibility:public"],
 )
+
+# Runtime python gRPC library. The generated *_pb2_grpc.py stubs depend on this
+# for `import grpc`; the actual grpcio package is provided by the system Python
+# environment, so this is an empty py_library that only satisfies the PyInfo dep
+# (py_grpc_library's grpc_library attr) -- the CMS system-grpc repo has no
+# in-source //src/python/grpcio/grpc:grpcio target.
+py_library(
+    name = "grpcio",
+    visibility = ["//visibility:public"],
+)
