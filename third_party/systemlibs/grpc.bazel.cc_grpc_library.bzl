@@ -13,6 +13,7 @@ def cc_grpc_library(
         generate_mocks = False,
         use_external = False,
         grpc_only = False,
+        plugin_flags = [],
         **kwargs):
     """Generates C++ grpc classes for services defined in a proto file.
 
@@ -92,6 +93,7 @@ def cc_grpc_library(
             plugin = "@com_github_grpc_grpc//:grpc_cpp_plugin",
             well_known_protos = well_known_protos,
             generate_mocks = generate_mocks,
+            flags = plugin_flags,
             **kwargs
         )
         cc_library(
