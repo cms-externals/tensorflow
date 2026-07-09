@@ -109,6 +109,19 @@ def workspace():
     if not native.existing_rule("proto_bazel_features"):
         proto_bazel_features(name = "proto_bazel_features")
 
+    # CMS: protobuf 6.31.1's java_proto rules load @rules_java//java/private:proto_support.bzl,
+    # which only exists in rules_java 8.x. Bazel 7.7.0 bundles an older rules_java, and the
+    # upstream override (grpc_extra_deps() -> protobuf_deps()) is dropped in the system-grpc
+    # build. Register rules_java 8.6.1 directly, exactly as protobuf_deps() does.
+    if not native.existing_rule("rules_java"):
+        http_archive(
+            name = "rules_java",
+            urls = [
+                "https://github.com/bazelbuild/rules_java/releases/download/8.6.1/rules_java-8.6.1.tar.gz",
+            ],
+            sha256 = "c5bc17e17bb62290b1fd8fdd847a2396d3459f337a7e07da7769b869b488ec26",
+        )
+
     rules_foreign_cc_dependencies()
     config_googleapis()
 
