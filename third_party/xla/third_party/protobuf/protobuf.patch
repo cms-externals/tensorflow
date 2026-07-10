@@ -214,3 +214,17 @@ index a6d8bcf64..24da4cac5 100644
            self._PrintShortRepeatedPrimitivesValue(field, value)
          else:
            for element in value:
+diff --git a/editions/defaults.bzl b/editions/defaults.bzl
+index 7d83865..b81ac2f 100644
+--- a/editions/defaults.bzl
++++ b/editions/defaults.bzl
+@@ -35,6 +35,9 @@ def _compile_edition_defaults_impl(ctx):
+         executable = ctx.executable.protoc or ctx.executable._protoc_minimal,
+         arguments = [args],
+         progress_message = "Generating edition defaults",
++        # CMS: inherit the shell env (LD_LIBRARY_PATH forwarded via --action_env) so the
++        # bazel-built protoc_minimal finds the CMS gcc13 libstdc++ at run time.
++        use_default_shell_env = True,
+     )
+ 
+ compile_edition_defaults = rule(
