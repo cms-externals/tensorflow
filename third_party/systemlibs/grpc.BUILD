@@ -26,12 +26,25 @@ cc_library(
         "-lgrpc++",
         "-lgpr",
     ],
+    # CMS: grpc++ headers (config_protobuf.h) include protobuf's json_util.h /
+    # type_resolver_util.h. The system grpc BUILD must propagate those protobuf
+    # headers to grpc-consuming compiles (e.g. generated *.grpc.pb.cc).
+    deps = [
+        "@com_google_protobuf//:json_util",
+        "@com_google_protobuf//:type_resolver",
+    ],
     visibility = ["//visibility:public"],
 )
 
 cc_library(
     name = "grpc++_codegen_proto",
     includes = ["include"],
+    # CMS: same as grpc++ -- generated *.grpc.pb.cc depend on this and pull in
+    # config_protobuf.h, which needs protobuf's json_util / type_resolver headers.
+    deps = [
+        "@com_google_protobuf//:json_util",
+        "@com_google_protobuf//:type_resolver",
+    ],
     visibility = ["//visibility:public"],
 )
 
