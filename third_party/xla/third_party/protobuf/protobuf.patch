@@ -215,7 +215,7 @@ index a6d8bcf64..24da4cac5 100644
          else:
            for element in value:
 diff --git a/editions/defaults.bzl b/editions/defaults.bzl
-index 7d83865..b81ac2f 100644
+index 7d83865..a439e75 100644
 --- a/editions/defaults.bzl
 +++ b/editions/defaults.bzl
 @@ -35,6 +35,9 @@ def _compile_edition_defaults_impl(ctx):
@@ -228,3 +228,12 @@ index 7d83865..b81ac2f 100644
      )
  
  compile_edition_defaults = rule(
+@@ -76,6 +79,8 @@ def _embed_edition_defaults_impl(ctx):
+         arguments = [args],
+         outputs = [ctx.outputs.output],
+         inputs = [ctx.file.defaults, ctx.file.template],
++        # CMS: same as above -- the escape tool needs the CMS gcc13 libstdc++ at run time.
++        use_default_shell_env = True,
+     )
+ 
+ embed_edition_defaults = rule(
