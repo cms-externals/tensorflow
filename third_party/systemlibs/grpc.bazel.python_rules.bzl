@@ -90,6 +90,7 @@ def _gen_py_aspect_impl(target, context):
         executable = context.executable._protoc,
         arguments = arguments,
         mnemonic = "ProtocInvocation",
+        use_default_shell_env = True,  # CMS: inherit LD_LIBRARY_PATH so bazel-built protoc finds gcc13 libstdc++
     )
 
     imports = []
@@ -234,6 +235,7 @@ def _generate_pb2_grpc_src_impl(context):
         executable = context.executable._protoc,
         arguments = arguments,
         mnemonic = "ProtocInvocation",
+        use_default_shell_env = True,  # CMS: inherit LD_LIBRARY_PATH so bazel-built protoc finds gcc13 libstdc++
     )
 
     imports = []
