@@ -22,6 +22,9 @@ cc_library(
         # code. We use it, but we do not rely on it, as evidenced above.
         "EIGEN_MPL2_ONLY",
         "EIGEN_MAX_ALIGN_BYTES=64",
+        # CMS: define globally so Eigen::ThreadPoolDevice is materialised whenever
+        # unsupported/Eigen/CXX11/Tensor is included, independent of include order.
+        "EIGEN_USE_THREADS",
         "EIGEN_HAS_TYPE_TRAITS=0",
     ],
     visibility = ["//visibility:public"],
@@ -35,6 +38,9 @@ cc_library(
         # code. We use it, but we do not rely on it, as evidenced above.
         "EIGEN_MPL2_ONLY",
         "EIGEN_MAX_ALIGN_BYTES=64",
+        # CMS: define globally so Eigen::ThreadPoolDevice is materialised whenever
+        # unsupported/Eigen/CXX11/Tensor is included, independent of include order.
+        "EIGEN_USE_THREADS",
     ],
     includes = ["include/eigen3"],
     visibility = ["//visibility:public"],
@@ -47,6 +53,9 @@ cc_library(
         # code. We use it, but we do not rely on it, as evidenced above.
         "EIGEN_MPL2_ONLY",
         "EIGEN_MAX_ALIGN_BYTES=64",
+        # CMS: define globally so Eigen::ThreadPoolDevice is materialised whenever
+        # unsupported/Eigen/CXX11/Tensor is included, independent of include order.
+        "EIGEN_USE_THREADS",
     ],
     includes = ["include/eigen3"],
     visibility = ["//visibility:public"],
