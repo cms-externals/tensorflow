@@ -27,3 +27,20 @@ index 4a492ee2f..a7ede4bf7 100644
      for (auto *Sym : Externals) {
        SectionRangeSymbolDesc D = F(G, *Sym);
  
+diff --git a/llvm/include/llvm/IR/CFG.h b/llvm/include/llvm/IR/CFG.h
+--- a/llvm/include/llvm/IR/CFG.h
++++ b/llvm/include/llvm/IR/CFG.h
+@@ -180,7 +180,12 @@ class SuccIterator
+   };
+ 
+ public:
+-  // begin iterator
++  // default constructed (singular) iterator. libstdc++ 15 gives
++  // std::reverse_iterator's default constructor the exception specification
++  // noexcept(noexcept(Iterator())), which C++20's default_initializable check
++  // instantiates -- a hard error, not a SFINAE failure, without this.
++  SuccIterator() : Inst(nullptr), Idx(0) {}
++  // begin iterator
+   explicit inline SuccIterator(InstructionT *Inst) : Inst(Inst), Idx(0) {}
+   // end iterator
+   inline SuccIterator(InstructionT *Inst, bool) : Inst(Inst) {
